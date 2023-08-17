@@ -14,7 +14,7 @@ public class Main {
 		
 		String[] st = br.readLine().split(" ");
 		int[] arr = new int[N];
-		int max = 0;
+		int max = 0; // 나무 높이의 최댓값
 		int min = 0;
 		for(int i=0; i<N; i++) {
 			arr[i] = Integer.parseInt(st[i]);
@@ -25,8 +25,8 @@ public class Main {
 			int mid = (min+max) /2;
 			long sum = 0;
 			for(int a : arr) {
-				if(a > mid) {
-					sum+= (a-mid);
+				if(a > mid) { // 중간값 보다 나무가 더 길다면
+					sum+= (a-mid); // 자르고 추가
 				}
 			}
 			if(sum >= M) {
