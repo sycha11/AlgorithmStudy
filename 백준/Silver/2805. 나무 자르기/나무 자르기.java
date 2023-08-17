@@ -13,20 +13,18 @@ public class Main {
 		int M = Integer.parseInt(s[1]);
 		
 		String[] st = br.readLine().split(" ");
-		int[] A = new int[N];
+		int[] arr = new int[N];
 		int max = 0;
 		int min = 0;
 		for(int i=0; i<N; i++) {
-			A[i] = Integer.parseInt(st[i]);
-			max = Math.max(max, A[i]);
+			arr[i] = Integer.parseInt(st[i]);
+			max = Math.max(max, arr[i]);
 		}
-		
-		Arrays.sort(A);
 		
 		while(min < max) {
 			int mid = (min+max) /2;
 			long sum = 0;
-			for(int a : A) {
+			for(int a : arr) {
 				if(a > mid) {
 					sum+= (a-mid);
 				}
