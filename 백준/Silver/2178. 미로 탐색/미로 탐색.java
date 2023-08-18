@@ -1,64 +1,59 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
 public class Main {
-	
-	static int N,M;
-	static boolean[][] visit;
+
+	static int n,m;
 	static int[][] map;
-	static int[] dx = {-1, 1, 0, 0}; // x 상하
-	static int[] dy = {0, 0, -1, 1}; // y 좌우
+	static boolean[][] visited;
+	static int[] dx = {-1, 1, 0, 0};// 상하좌우
+	static int[] dy = {0, 0, -1, 1};
 	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException{
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String[] s = br.readLine().split(" ");
 		
-		N = sc.nextInt();
-		M = sc.nextInt();
+		n = Integer.parseInt(s[0]);
+		m = Integer.parseInt(s[1]);
+		visited = new boolean[n][m];
 		
-		map = new int[N][M];
-		
-		for(int i=0; i<N; i++) {
-			String str = sc.next();
-			for(int j=0; j<M; j++) {
+		map = new int[n][m];
+		for(int i=0; i<n; i++) {
+			String str = br.readLine();
+			for(int j=0; j<m; j++) {
 				map[i][j] = str.charAt(j) - '0';
 			}
 		}
 		
-		visit = new boolean[N][M];
-		visit[0][0] = true;
 		bfs(0,0);
-		System.out.println(map[N-1][M-1]);
-		
-	}
 
-	public static void bfs(int a, int b) {
-		Queue<int[]> queue = new LinkedList<>();
-		// 큐에 a,b 저장
-		queue.add(new int[] {a,b});
+		System.out.println(map[n-1][m-1]);
+	}
+	private static void bfs(int x, int y) {
+		Queue<int[]> q = new LinkedList<>();
+		q.add(new int[] {x,y});
 		
-		while(!queue.isEmpty()) {
-			int[] now = queue.poll();
+		while(!q.isEmpty()) {
+			int[] now = q.poll();
 			int nowX = now[0];
 			int nowY = now[1];
-			
 			for(int i=0; i<4; i++) {
 				int nextX = nowX + dx[i];
 				int nextY = nowY + dy[i];
-				
-				if(nextX < 0 || nextY < 0 || nextX >= N || nextY >=M) {
+				if(nextX < 0 || nextY < 0 || nextX >= n || nextY >= m) {
 					continue;
 				}
-				if(visit[nextX][nextY] || map[nextX][nextY] == 0) {
-					continue;
-				}
-				// map이 1이거나 visit이 false라면 큐에 추가
-				queue.add(new int[] {nextX, nextY});
-				// 방문 카운트
+				if(visited[nextX][nextY] || map[nextX][nextY] ==0) continue;
+
+				// 맵에 누적해줌
 				map[nextX][nextY] = map[nowX][nowY] + 1;
-				visit[nextX][nextY] = true;
+				q.add(new int[] {nextX,nextY});
+				visited[nextX][nextY] = true;
 			}
 		}
 	}
-	
 }
