@@ -16,35 +16,26 @@ public class Main {
 		Stack<Integer> st = new Stack<>(); 
 		StringBuilder sb = new StringBuilder();
 		boolean flag = false;
+		int top = 0;
 		
 		for(int i=0; i<n; i++) {
-			list.add(Integer.parseInt(br.readLine()));
-		}
-		
-		int cnt = 1;
-		st.push(cnt++);
-		sb.append("+").append("\n");
-		
-		while(!st.isEmpty() && list.size() > 0) {
-			if(list.get(0) < st.peek()) { // 원하는 값보다 크다면 뽑을 수 없음
-				flag = true; 
-				break;
-			} 
+			int idx = Integer.parseInt(br.readLine());
 			
-			if(list.get(0).intValue() == st.peek().intValue()) { // 스택의 top과 숫자와 리스트 0번째 숫자가 같다면 pop
-				st.pop();
-				list.remove(0);
-				sb.append("-").append("\n");
-				if(st.isEmpty() && cnt <= n) { // 비어있지만 n 이하면 cnt 추가
-					st.push(cnt++);
+			if(top < idx) { // 넣는값이 top 보다 크다면
+				for(int j=top+1; j<=idx; j++) { // 위에 있는거부터 찾는값까지 스택에 넣기
+					st.push(j);
 					sb.append("+").append("\n");
 				}
-			} else { // 다르면 cnt push
-				st.push(cnt++);
-				sb.append("+").append("\n");
-			}
+				top = idx;
+			} else {
+				if(st.peek() != idx) {
+					flag = true;
+					break;
+				}
+			} 
+			st.pop();
+			sb.append("-").append("\n");
 			
-//			System.out.println(sb);
 		}
 		
 		if(flag) {
@@ -52,7 +43,6 @@ public class Main {
 		} else {
 			System.out.println(sb);
 		}
-		
 	}
 
 }
