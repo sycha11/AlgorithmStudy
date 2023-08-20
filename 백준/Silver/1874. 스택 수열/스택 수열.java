@@ -31,7 +31,7 @@ public class Main {
 				break;
 			} 
 			
-			if(list.get(0).intValue() == st.peek().intValue()) { // 스택의 top과 숫자와 리스트 0번째 숫자가 같다면 pop
+			if(list.get(0).equals(st.peek())) { // 스택의 top과 숫자와 리스트 0번째 숫자가 같다면 pop
 				st.pop();
 				list.remove(0);
 				sb.append("-").append("\n");
