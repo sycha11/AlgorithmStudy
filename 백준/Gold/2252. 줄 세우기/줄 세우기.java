@@ -1,67 +1,70 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class Main {
+
+	static int n,m;
+	static List<Integer>[] list;
+	static Queue<Integer> q;
+	static boolean[] visited;
+	static int[] check;
+	static StringBuilder sb;
 	
-	static int N,M;
-	static int[] indegree;
-	static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws IOException{
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        indegree = new int[N+1];
-        for (int i = 0; i < N+1; i++) {
-			indegree[i] = 0;
-	        graph.add(new ArrayList<Integer>());
-		}
-        for (int i = 0; i < M; i++) {
-        	StringTokenizer st2 = new StringTokenizer(br.readLine());
-        	int A = Integer.parseInt(st2.nextToken());
-        	int B = Integer.parseInt(st2.nextToken());
-        	graph.get(A).add(B);
-        	indegree[B] +=1;
-        }
-        
-        topologysort();
-	}
-	
-	public static void topologysort() {
-		Queue<Integer> q = new LinkedList<>();
-		Deque<Integer> result = new ArrayDeque<>();
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		for (int i = 1; i < N+1; i++) {
-			if (indegree[i] == 0) {
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		
+		list = new ArrayList[n+1];
+		q = new LinkedList<>();
+		visited = new boolean[n+1];
+		check = new int[n+1];
+		sb = new StringBuilder();
+		
+		for(int i=1; i<=n; i++) {
+			list[i] = new ArrayList<>();
+		}
+		
+		for(int i=0; i<m; i++) {
+			st = new StringTokenizer(br.readLine());
+			int v = Integer.parseInt(st.nextToken());
+			int e = Integer.parseInt(st.nextToken());
+			list[v].add(e); // 유향
+			check[e] +=1;
+		}
+		
+		for(int i=1; i<=n; i++) {
+			if(check[i] == 0) {
 				q.add(i);
 			}
 		}
-		
-		while (!q.isEmpty()) {
-			int now = q.poll();
-			result.add(now);
-			for (int g : graph.get(now)) {
-				indegree[g] -=1;
-				if (indegree[g] == 0) {
-					q.add(g);
-				}
-					
-			}
-		}
-		
-		for (Integer i : result) {
-			System.out.print(i+" " );
-		}
-		
+//		System.out.println(q.toString());
+		bfs();
+		System.out.println(sb);
 	}
 
+	private static void bfs() {
+		while(!q.isEmpty()) {
+			int x = q.poll();
+			sb.append(x).append(" ");
+			for(int i=0; i<list[x].size(); i++) {
+				if(check[list[x].get(i)] != 0) {
+					check[list[x].get(i)] -= 1;
+					if(check[list[x].get(i)] == 0) {
+						q.add(list[x].get(i));
+					}
+				}
+			}
+		}
+	}
 }
