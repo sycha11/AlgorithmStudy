@@ -1,6 +1,8 @@
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -9,20 +11,25 @@ public class Main {
 	static int cnt;
 	static int[] dx = {-1,1,0,0,-1,-1,1,1};
 	static int[] dy = {0,0,-1,1,-1,1,-1,1}; //상하좌우 좌상우상좌하우하
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException{
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		
 		ArrayList<Integer> list = new ArrayList<>();
 		while(true) {
-			w = sc.nextInt();
-			h = sc.nextInt();
+			st = new StringTokenizer(br.readLine());
+			w = Integer.parseInt(st.nextToken());
+			h = Integer.parseInt(st.nextToken());
 			
 			if(w == 0 && h == 0) {
 				break;
 			}
 			map = new int[h][w];
 			for(int i=0; i<h; i++) {
+				st = new StringTokenizer(br.readLine());
 				for(int j=0; j<w; j++) {
-					map[i][j] = sc.nextInt();
+					map[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
 			cnt = 0;
@@ -59,5 +66,6 @@ public class Main {
 			
 		}
 	}
+
 
 }
