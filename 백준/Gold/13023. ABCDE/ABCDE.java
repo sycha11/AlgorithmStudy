@@ -1,63 +1,61 @@
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
 
-		static int n,m;
-		static ArrayList<Integer>[] map;
-		static boolean[] visited;
-	    static boolean arrive;
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	static int n,m;
+	static ArrayList<Integer>[] list;
+	static boolean[] visited;
+	static int answer;
+	
+	public static void main(String[] args) throws IOException{
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		n = sc.nextInt(); // 사람수
-		m = sc.nextInt(); // 관계수
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
 		
-		map = new ArrayList[n];
+		list = new ArrayList[n];
 		visited = new boolean[n];
 		
 		for(int i=0; i<n; i++) {
-			map[i] = new ArrayList<Integer>();
+			list[i] = new ArrayList<Integer>();
 		}
-		
 		for(int i=0; i<m; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 			
-			map[a].add(b);
-			map[b].add(a);
+			list[a].add(b);
+			list[b].add(a);		
 		}
-		
-		int count;
+		answer = 0;
 		for(int i=0; i<n; i++) {
-			count = 1;
-			dfs(i,count);
-			if(arrive) {
+			dfs(i,1);
+			if(answer ==1) {
 				break;
 			}
 		}
-		if(arrive) {
-			System.out.println("1");
-		} else {
-			System.out.println("0");
-		}
+		System.out.println(answer);
 	}
 	
-	public static void dfs(int index, int cnt) {
+	private static void dfs(int x, int cnt) {
 		if(cnt == 5) {
-			arrive = true;
+			answer = 1;
 			return;
 		}
-		visited[index] = true;
-		
-		for(int i=0; i<map[index].size(); i++) {
-			int value = map[index].get(i);
-			if(visited[value] == false) {
-				dfs(value, cnt+1);
+		visited[x] = true;
+		for(int i=0; i<list[x].size(); i++) {
+			int idx = list[x].get(i);
+			if(!visited[idx]) {
+				dfs(idx, cnt+1);
 			}
 		}
-		visited[index] = false;
+		visited[x] = false;
 	}
-
+	
 }
