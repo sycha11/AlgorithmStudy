@@ -1,61 +1,76 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Main {
-
-	static int n,m;
-	static ArrayList<Integer>[] list;
+ 
+	static int N,M;
 	static boolean[] visited;
-	static int answer;
-	
-	public static void main(String[] args) throws IOException{
+	static boolean flag = false;
+	static ArrayList<ArrayList<Integer>> graph;
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void putEdge(ArrayList<ArrayList<Integer>> graph, int x, int y) {
+        graph.get(x).add(y);
+        graph.get(y).add(x);
+    }
+ 
+    public static void main(String[] args) throws IOException {
+        
+    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-		
-		list = new ArrayList[n];
-		visited = new boolean[n];
-		
-		for(int i=0; i<n; i++) {
-			list[i] = new ArrayList<Integer>();
+        graph = new ArrayList<>();
+        N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		visited = new boolean[N];
+        for (int i = 0; i <= N; i++)
+            graph.add(new ArrayList<>()); //각 노드 별 리스트를 만들어준다.
+        
+        for (int i = 0; i < M; i++) {
+        	StringTokenizer st2 = new StringTokenizer(br.readLine());
+        	int a = Integer.parseInt(st2.nextToken());
+    		int b = Integer.parseInt(st2.nextToken());
+        	putEdge(graph, a, b);
 		}
-		for(int i=0; i<m; i++) {
-			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			
-			list[a].add(b);
-			list[b].add(a);		
-		}
-		answer = 0;
-		for(int i=0; i<n; i++) {
-			dfs(i,1);
-			if(answer ==1) {
-				break;
+        
+        for (int i = 0; i < N; i++) {
+			if (!flag) {
+				dfs(i,0);
 			}
 		}
-		System.out.println(answer);
-	}
-	
-	private static void dfs(int x, int cnt) {
-		if(cnt == 5) {
-			answer = 1;
-			return;
-		}
-		visited[x] = true;
-		for(int i=0; i<list[x].size(); i++) {
-			int idx = list[x].get(i);
-			if(!visited[idx]) {
-				dfs(idx, cnt+1);
-			}
-		}
-		visited[x] = false;
-	}
-	
+        
+        if (flag) {
+        	System.out.println(1);
+        }
+        else {
+        	System.out.println(0);
+        }
+        
+    }
+    
+    public static void dfs(int i, int cnt) {
+    	if (cnt == 5) {
+    		flag = true;
+    	}
+    	else {
+    		for (Integer b : graph.get(i)) {
+        		if (visited[b] == false) {
+        			if (cnt == 4) {
+        				flag =true;
+        			}
+        			else {
+	        			visited[b] = true;
+	        			dfs(b, cnt+1);
+	        			visited[b] = false;
+        			}
+    			
+        		}
+        	}
+    	}
+    	
+    }
 }
