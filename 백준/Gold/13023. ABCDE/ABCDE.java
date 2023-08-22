@@ -39,7 +39,9 @@ public class Main {
         
         for (int i = 0; i < N; i++) {
 			if (!flag) {
-				dfs(i,0);
+				visited[i] = true;
+				dfs(i,1);
+				visited[i] = false;
 			}
 		}
         
@@ -53,24 +55,20 @@ public class Main {
     }
     
     public static void dfs(int i, int cnt) {
-    	if (cnt == 5) {
-    		flag = true;
+		for (Integer b : graph.get(i)) {
+    		if (visited[b] == false) {
+    			if (cnt == 4) {
+    				flag =true;
+    			}
+    			else {
+        			visited[b] = true;
+        			dfs(b, cnt+1);
+        			visited[b] = false;
+    			}
+			
+    		}
     	}
-    	else {
-    		for (Integer b : graph.get(i)) {
-        		if (visited[b] == false) {
-        			if (cnt == 4) {
-        				flag =true;
-        			}
-        			else {
-	        			visited[b] = true;
-	        			dfs(b, cnt+1);
-	        			visited[b] = false;
-        			}
-    			
-        		}
-        	}
-    	}
+    	
     	
     }
 }
