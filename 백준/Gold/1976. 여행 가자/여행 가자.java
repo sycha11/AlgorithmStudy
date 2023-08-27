@@ -7,7 +7,8 @@ public class Main {
 
 	static int n,m;
 	static int[] parents;
-	
+
+	// 유니온 파인드
 	private static void make() {
 		parents = new int[n];
 		for(int i=0; i<n; i++) {
