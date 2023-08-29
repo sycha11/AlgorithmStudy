@@ -6,68 +6,76 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n;
-	static int[][] map;
-//	static int[] arr;
-	static boolean[] visited;
-	static int min;
-	
 	public static void main(String[] args) throws IOException{
-		
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		n = Integer.parseInt(br.readLine());
-		map = new int[n][n];
-//		arr = new int[n];
-		visited = new boolean[n+1];
-		
-		min = Integer.MAX_VALUE;
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
-		for(int i=0; i<n; i++) {
+		
+		int N = Integer.parseInt(br.readLine());
+		
+		int[][] map = new int[N][N];
+		for(int i=0; i<N; i++) {
 			st = new StringTokenizer(br.readLine());
-			for(int j=0; j<n; j++) {
+			for(int j=0; j<N; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 		
-		recu(0,0);
-		System.out.println(min);
-	}
-
-	private static void recu(int start, int depth) {
-		if(depth == n/2) {
-//			System.out.println(Arrays.toString(arr));
-			diff();
-			return;
+		int[] flag = new int[N];
+		for(int i=N/2; i<N; i++) {
+			flag[i] = 1;
 		}
-		for(int i=start; i<n; i++) {
-			if(visited[i]) continue;
-			visited[i] = true;
-//			arr[depth] = i+1;
-			recu(i+1, depth+1);
-			visited[i] = false;
-		}
-	}
-	
-	private static void diff() {
-		int left = 0;
-		int right = 0;
-		for(int i=0; i<n; i++) {
-			for(int j=i+1; j<n; j++) {
-				if(visited[i]) {
-					if(visited[j]) {
-						left += map[i][j];
-						left += map[j][i];
+		
+		int res = Integer.MAX_VALUE;
+		
+		do {
+			int sum1 = 0;
+			int sum2 = 0;
+			
+			for(int i=0; i<N; i++) {
+				for(int j=0; j<N; j++) {
+					if(i==j) continue;
+					if(flag[i] == 1 && flag[j] == 1) {
+						sum1 += map[i][j];
 					}
-				} else if(!visited[i]){
-					if(!visited[j]) {
-						right += map[i][j];
-						right += map[j][i];
+					if(flag[i] == 0 && flag[j] == 0) {
+						sum2 += map[i][j];
 					}
 				}
 			}
+			res = Math.min(res, Math.abs(sum1-sum2));
+			
+		}while(np(flag));
+		sb.append(res);
+		System.out.println(sb);
+	}
+	
+	private static boolean np(int[] p) {
+		
+		int N = p.length;
+		int i = N-1;
+		while(i>0 && p[i-1] >= p[i]) --i;
+		
+		if(i==0) return false; // 맨앞이 젤 큼
+		
+		int j = N-1;
+		while(p[i-1] >= p[j]) --j;
+		
+		swap(p, i-1, j);
+		
+		int k = N-1;
+		while(i<k) {
+			swap(p, i++, k--); //오름차순으로 정렬
 		}
 		
-		int sum = Math.abs(left- right);
-		min = Math.min(min, sum);
+		return true;
 	}
+	
+	private static void swap(int[] arr, int a, int b) {
+		int tmp = arr[a];
+		arr[a] = arr[b];
+		arr[b] = tmp;
+	}
+
 }
