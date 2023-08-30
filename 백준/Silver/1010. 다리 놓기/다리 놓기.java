@@ -5,32 +5,26 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int[][] B = new int[31][31];
-	
-	public static void main(String[] args) throws IOException{
-
+	static long[] fac;
+	static int R,N;
+	static long ans;
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int TC = Integer.parseInt(st.nextToken());
 		
-		int T = Integer.parseInt(br.readLine());
-		
-		for(int tc=1; tc<=T; tc++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
-			int r = Integer.parseInt(st.nextToken());
-			int n = Integer.parseInt(st.nextToken());
-
-			for(int i=0; i<=n; i++) {
-				for(int j=0, end=Math.min(i, r); j<=end; j++) {
-					if(i==j || j==0) {
-						B[i][j] = 1;
-					} else {
-						B[i][j] = B[i-1][j-1] + B[i-1][j];
-					}
-				}
+		for (int i = 0; i < TC; i++) {
+			st = new StringTokenizer(br.readLine());
+			R = Integer.parseInt(st.nextToken());
+			N = Integer.parseInt(st.nextToken());
+			ans = 1;
+			for (int i1 = 0; i1 < R; i1++) {
+				ans = ans*(N-i1)/(i1+1);
 			}
-			
-			System.out.println(B[n][r]);
+			System.out.println(ans);
 		}
 		
+		
 	}
-	
 }
