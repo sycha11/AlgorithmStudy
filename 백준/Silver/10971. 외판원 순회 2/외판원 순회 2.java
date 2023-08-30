@@ -4,56 +4,52 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-	static boolean[] visited;
+
+	static int n;
 	static int[][] map;
-	static int n, min_val;
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+	static boolean[] visited;
+	static int ans = Integer.MAX_VALUE;
+	
+	public static void main(String[] args) throws IOException{
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		visited = new boolean[n];
-		map = new int[n][n];
-		min_val= 1000000000;
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < n; j++) {
+		n = Integer.parseInt(br.readLine());
+		map = new int[n+1][n+1];
+		visited = new boolean[n+1];
+		
+		for(int i=1; i<=n; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			for(int j=1; j<=n; j++) {
 				map[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 		
-		for (int i = 0; i < n; i++) {
-			backtracking(i,0,i,0);
-			
+		for(int i=1; i<=n; i++) {
+			visited[i] = true;
+			dfs(i,i,0,0);
+			visited[i] = false;
 		}
-		System.out.println(min_val);
-	}
-	
-	public static void backtracking(int m, int cnt, int start, int cost) {
-		
-		if (cnt == n-1) {
-			if (map[m][start] !=0) {
-				if (min_val>cost+map[m][start]) {
-					min_val = cost+map[m][start];
-					return;
-				}
-			}
-			return;
-		}
-		for (int i = 0; i < n; i++) {
-			if ((i!=start)&&(visited[i] == false)&&(map[m][i] != 0)){
-				visited[i] = true;
-//				System.out.println(m+"에서"+i+"로");
-				backtracking(i,cnt+1,start,cost+map[m][i]);
-				visited[i] = false;
-			}
-		}
-		
-		
-		
-		
-		
+		System.out.println(ans);
 		
 	}
 
+	// 시작점, 탐색정점, 합, 깊이
+	private static void dfs(int start, int now, int sum, int depth) {
+		if(depth == n-1) { // 탐색완료
+			if(map[now][start] != 0) {
+				sum += map[now][start];
+				ans = Math.min(ans, sum);
+			}
+			return;
+		}
+		for(int i=1; i<=n; i++) {
+			if(!visited[i]) { // 방문안했거나
+				if(map[now][i] != 0) { // 갈 수 있다면
+					visited[i] = true;
+					dfs(start, i, sum+map[now][i], depth+1);
+					visited[i] = false;
+				}
+			}
+		}
+	}
 }
