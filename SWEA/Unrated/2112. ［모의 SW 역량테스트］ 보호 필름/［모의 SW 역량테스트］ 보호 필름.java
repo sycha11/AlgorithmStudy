@@ -41,7 +41,6 @@ public class Solution {
 			// 현재 몇번째의 막의 정보를 수정하고 있는지, 현재까지 몇번 막의 정보를 수정했는지
 			dfs(0, 0);
 			
-			//안전기준체크
 			
 			System.out.println("#" + tc + " " + res);
 		}
@@ -55,15 +54,13 @@ public class Solution {
 		
 		// 기저조건
 		if(idx == D) {
-			// 전체막이 안전한지 검사해서
 			// 안전하면 cnt와 최종횟수를 비교해서 최소값으로 변경
 			if(check()) {
 				res = Math.min(res, cnt);
 			}
 			return;
 		}
-		//실행하면서 재귀호출
-		// 막의 정보를 x, 막의정보 0, 막의 정보를 1
+		
 		arr[idx] = -1;
 		dfs(idx+1, cnt);
 		
