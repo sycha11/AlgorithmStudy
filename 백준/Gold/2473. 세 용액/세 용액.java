@@ -37,7 +37,7 @@ public class Main {
 					answer[2] = arr[right];
 				}
 //				System.out.println(arr[i] +" " + arr[left] + " " + arr[right]);
-				if(Math.abs(arr[i] + arr[left+1] + arr[right]) < Math.abs(arr[i] + arr[left] + arr[right-1])) {
+				if(arr[i] + arr[left] + arr[right] < 0) {
 					left++;
 				} else {
 					right--;
