@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,6 +42,7 @@ public class Main {
 			int mid = (left+right) / 2; // 400
 			int sum = 0;
 			for(int i=1; i<n+2; i++) {
+				// 현재 휴게소 사이에 mid 기준으로 몇개의 휴게소를 설치할 수 있는가
 				sum += (huge[i] - huge[i-1] - 1) / mid;
 			}
 			if(sum > m) {
@@ -50,6 +50,7 @@ public class Main {
 			} else {
 				right = mid - 1;
 			}
+//			System.out.println(right + " " + mid);
 		}
 		return left;
 	}
