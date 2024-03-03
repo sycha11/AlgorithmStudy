@@ -20,6 +20,8 @@ class Solution {
     public int solution(int[][] jobs) {
         int answer = 0;
         
+        //  jobs[작업이 요청되는 시점, 작업의 소요시간]
+        
         PriorityQueue<Node> pq = new PriorityQueue<>();
         // Arrays.sort(jobs, (o1, o2) -> o1[0] - o2[0]); // 정렬
         
@@ -33,6 +35,10 @@ class Solution {
                 return o1[0] - o2[0];
             }
         });
+        
+        for(int i=0; i<jobs.length; i++){
+            System.out.println(jobs[i][0] + " " + jobs[i][1]);
+        }
         
         int len = jobs.length;
         int idx = 0;
@@ -50,24 +56,23 @@ class Solution {
                 while(jobs[idx][0] <= end){
                     pq.add(new Node(jobs[idx][0], jobs[idx][1]));
                     idx++;
-                    if(idx == len) break; // 
+                    if(idx == len) break; 
                 }
             }
             
-            // 현재 시간으로 작업할 요청이 없을 때
-            if(pq.isEmpty()){
-                if(idx < len){
-                    pq.add(new Node(jobs[idx][0], jobs[idx][1]));
-                    end = jobs[idx][0];
-                    idx++;
-                }
-            }
+            
             
             if(!pq.isEmpty()){
                 Node node = pq.poll();
                 totalTime += (end - node.start + node.time);
                 end += node.time;
                 cnt++;
+            } else{
+                if(idx < len){
+                    pq.add(new Node(jobs[idx][0], jobs[idx][1]));
+                    end = jobs[idx][0];
+                    idx++;
+                }
             }
             
         
