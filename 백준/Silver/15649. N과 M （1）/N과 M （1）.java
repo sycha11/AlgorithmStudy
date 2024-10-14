@@ -1,4 +1,7 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -6,19 +9,22 @@ public class Main {
     static int[] arr;
     static boolean[] visited;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        n  = sc.nextInt();
-        m = sc.nextInt();
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        arr = new int[m];
-        visited = new boolean[n];
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        arr = new int[m+1];
+        visited = new boolean[n+1];
 
-        combi(0,0);
+        recu(0,0);
+
     }
-    static void combi(int start, int cnt){
-        if(cnt == m){
+
+    static void recu(int start, int depth){
+        if(depth == m){
             for(int i=0; i<m; i++){
                 System.out.print(arr[i] + " ");
             }
@@ -27,13 +33,13 @@ public class Main {
         }
 
         for(int i=0; i<n; i++){
-            if(!visited[i]) {
-                arr[cnt] = i + 1;
+            if(!visited[i]){
                 visited[i] = true;
-                combi(start + 1, cnt + 1);
+                arr[depth] = i+1;
+                recu(start+1, depth+1);
                 visited[i] = false;
             }
-
         }
+
     }
 }
