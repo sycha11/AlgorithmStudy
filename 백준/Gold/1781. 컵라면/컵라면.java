@@ -19,18 +19,23 @@ public class Main {
             this.cup = cup;
         }
 
+        // 데드라인은 오름차순
+        // 데드라인이 같다면 컵라면 내림차순
         @Override
         public int compareTo(Node o){
-            if(this.cup < o.cup){
-                return 1;
-            } else if(this.cup == o.cup){
-                if(this.deadline > o.deadline){
-                    return 1;
-                } else if(this.deadline == o.deadline){
+            if(this.deadline - o.deadline < 0){
+                return -1;
+            } else if(this.deadline == o.deadline){
+                if(this.cup - o.cup > 0){
+                    return -1;
+                } else if(this.cup == o.cup){
                     return 0;
+                } else{
+                    return 1;
                 }
+            } else{
+                return 1;
             }
-            return -1;
         }
     }
 
@@ -40,7 +45,7 @@ public class Main {
         N = Integer.parseInt(br.readLine());
 
         Node[] nodeList = new Node[N];
-        int answer = 0;
+        long answer = 0;
 
         for(int i = 0; i < nodeList.length; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -49,36 +54,29 @@ public class Main {
             nodeList[i] = new Node(n1, n2);
         }
 
-        Arrays.sort(nodeList, new Comparator<>(){
-            @Override
-            public int compare(Node o1, Node o2){
-                if(o1.deadline < o2.deadline){
-                    return 1;
-                } else if(o1.deadline == o2.deadline){
-                    return 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        Arrays.parallelSort(nodeList);
+
+        for(int i = 0; i < N; i++){
+            if(pq.size() < nodeList[i].deadline){
+                pq.add(nodeList[i].cup);
+//                System.out.println(nodeList[i].deadline + " " + nodeList[i].cup);
+            } else{
+                int cup = pq.peek();
+                if(cup < nodeList[i].cup){
+//                    System.out.println(nodeList[i].deadline + " " + nodeList[i].cup);
+                    pq.poll();
+                    pq.add(nodeList[i].cup);
                 } else{
-                    return -1;
+//                    System.out.println("나가리: " + nodeList[i].deadline + " " + nodeList[i].cup);
                 }
             }
-        });
-
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-
-        int cnt = 0;
-        int sum = 0;
-
-        for(int i = 200000; i >=1 ; i--){
-            while(cnt < nodeList.length && nodeList[cnt].deadline == i){
-                pq.add(nodeList[cnt++]);
-            }
-            if(pq.isEmpty()){
-                continue;
-            }
-
-            sum += pq.poll().cup;
-
+//            System.out.println();
         }
-        System.out.println(sum);
-
+        while(!pq.isEmpty()){
+            answer += pq.poll();
+        }
+        System.out.println(answer);
     }
 }
