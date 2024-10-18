@@ -18,10 +18,19 @@ public class Main {
         }
         @Override
         public int compareTo(Node o){
-            if(this.m - o.m == 0){
-                return o.v - this.v;
+            if(this.m - o.m > 0){
+                return 1;
+            } else if(this.m == o.m){
+                if(this.v - o.v < 0){
+                    return 1;
+                } else if(this.v == o.v){
+                    return 0;
+                } else{
+                    return -1;
+                }
+            } else{
+                return -1;
             }
-            return this.m - o.m;
         }
     }
     public static void main(String[] args) throws IOException {
