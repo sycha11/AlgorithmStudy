@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n,m;
     static int[] arr;
     static boolean[] visited;
 
@@ -13,33 +12,33 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        arr = new int[m+1];
-        visited = new boolean[n+1];
+        arr = new int[M];
+        visited = new boolean[N];
 
-        recu(0,0);
-
+        recu(N,M,0);
     }
 
-    static void recu(int start, int depth){
-        if(depth == m){
-            for(int i=0; i<m; i++){
+    static void recu(int N, int M, int depth){
+        // 기저조건
+        if(depth == M){
+            for(int i = 0; i < arr.length; i++){
                 System.out.print(arr[i] + " ");
             }
             System.out.println();
             return;
         }
 
-        for(int i=0; i<n; i++){
+        // 구현문
+        for(int i = 0; i < N; i++){
             if(!visited[i]){
                 visited[i] = true;
-                arr[depth] = i+1;
-                recu(start+1, depth+1);
+                arr[depth] = i + 1;
+                recu(N, M, depth + 1);
                 visited[i] = false;
             }
         }
-
     }
 }
