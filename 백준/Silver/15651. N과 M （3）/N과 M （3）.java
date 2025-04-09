@@ -1,40 +1,39 @@
-
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
-	static int[] arr;
-	static StringBuilder sb = new StringBuilder();
-	
-	public static void main(String[] args) {
-		
-		Scanner sc = new Scanner(System.in);
-		
-		int N = sc.nextInt();
-		int M = sc.nextInt();
-		
-		arr = new int[M];
-		
-		recu(N, M, 0);
-		System.out.println(sb);
-	}
+    static int[] arr;
+    static StringBuilder sb = new StringBuilder();
 
-	static void recu(int n, int m, int depth) {
-		// 깊이에 도달하면 배열 출력
-		if(depth == m) {
-			for(int i=0; i<m; i++) {
-				sb.append(arr[i] + " ");
-//				System.out.print(arr[i] + " ");
-			}
-			sb.append("\n");
-//			System.out.println();
-			return;
-		}
-		
-		for(int i=0; i<n; i++) {
-			arr[depth] = i+1;
-			recu(n, m, depth+1);
-		}
-	}
-	
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+
+        arr = new int[M];
+
+        recu(N,M,0);
+        System.out.println(sb);
+    }
+    static void recu(int N, int M, int depth){
+        // 기저조건
+        if(depth == M){
+            for(int i = 0; i < M; i++){
+                sb.append(arr[i] + " ");
+            }
+            sb.append("\n");
+            return;
+        }
+        // 구현
+        for(int i = 1; i <= N; i++){
+            arr[depth] = i;
+            recu(N, M, depth + 1);
+        }
+    }
 }
