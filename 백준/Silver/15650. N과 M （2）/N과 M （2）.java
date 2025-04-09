@@ -4,38 +4,37 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int n,m;
+
     static int[] arr;
     static boolean[] visited;
-    static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        arr = new int[m];
-        visited = new boolean[n+1];
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-
-        recu(1,0);
-        System.out.println(sb);
+        arr = new int[M];
+        visited = new boolean[N];
+        recu(N,M,0,1);
     }
 
-    private static void recu(int start, int depth){
-        if(depth == m){
-            for(int val : arr){
-                sb.append(val).append(' ');
+    static void recu(int N, int M, int depth, int start){
+        // 기저조건
+        if(depth == M){
+            for(int i = 0; i < arr.length; i++){
+                System.out.print(arr[i] + " ");
             }
-            sb.append('\n');
+            System.out.println();
             return;
         }
 
-        for(int i=start; i<=n; i++){
-            arr[depth] = i;
-            recu(i+1, depth+1);
+        // 구현
+        for(int i = start; i <= N; i++){
+                arr[depth] = i;
+                recu(N, M, depth + 1, i + 1);
         }
     }
 }
